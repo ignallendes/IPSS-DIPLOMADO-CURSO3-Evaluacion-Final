@@ -10,7 +10,7 @@ import mongoose from 'mongoose'
 //    apunta a una base local. Nadie debe poder entrar a tu base desde tu repo.
 
 const MONGODB_URI =
-  'mongodb+srv://usuario-mongo:clave-secreta@cluster0.xxxxx.mongodb.net/plataforma'
+  'mongodb+srv://ignaallendes_db_user:rdh2R4LNHvOhwrnU@cluster0.c5bjkyw.mongodb.net/plataforma'
 
 export const conectar = async () => {
   await mongoose.connect(MONGODB_URI)
