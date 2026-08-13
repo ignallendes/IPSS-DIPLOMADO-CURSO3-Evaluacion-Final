@@ -11,7 +11,22 @@ import mongoose from 'mongoose'
 
 const alumnoSchema = new mongoose.Schema(
   {
-    // ...
+    nombre : {
+      type : String,
+      required : true,
+    },
+    email :{
+      type : String,
+      require : true,
+      unique : true,
+    },
+    telefono :{
+      type : String,
+    },
+    password : {
+      type : String,
+      require : true,
+    },
   },
   { timestamps: true },
 )

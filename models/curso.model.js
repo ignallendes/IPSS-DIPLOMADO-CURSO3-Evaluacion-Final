@@ -19,7 +19,33 @@ import mongoose from 'mongoose'
 
 const cursoSchema = new mongoose.Schema(
   {
-    // ...
+    nombre: {
+      type: String,
+      require: true,
+    },
+    fechaInicio: {
+      type: Date,
+      require: true,
+    },
+    fechaTermino: {
+      type: Date,
+      require: true,
+    },
+    estado: {
+      type: String,
+      enum: ['EN_MATRICULA', 'CERRADO'],
+      default: 'EN_MATRICULA',
+    },
+    profesor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Profesor',
+      default: null,
+    },
+    alumnos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
   },
   { timestamps: true },
 )
