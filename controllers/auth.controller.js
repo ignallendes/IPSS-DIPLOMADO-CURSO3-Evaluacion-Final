@@ -44,7 +44,7 @@ export const login = async (req, res) => {
     const password = req.body.password;
 
     const loger = await service.login(email, password)
-    if (loger) {
+     if (loger) {
       res.status(200).json(loger)
     } else {
       res.status(401).json({ error: 'Credenciales inválidas' })
