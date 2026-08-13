@@ -18,12 +18,41 @@ export const firmarToken = (id, rol) =>
 //   - créalo en la base
 //   - devuelve { token, profesor } (sin la password)
 export const registrarProfesor = async (datos) => {
-  // ...
+  const hashedPassword = await bcrypt.hash(datos.password,10);
+
+  const nuevoProfesor = await Profesor.create({
+    nombre : datos.nombre,
+    email : datos.email,
+    password : hashedPassword
+  });
+
+  const profesorObj = nuevoProfesor.toObject();
+
+  delete profesorObj.password;
+
+  const token = firmarToken(nuevoProfesor._id, 'PROFESOR')
+
+  return {token, profesor : profesorObj};
 }
 
 // TODO: registra un alumno (igual que el profesor).
 export const registrarAlumno = async (datos) => {
-  // ...
+  const hashedPassword = bcrypt.hash(datos.password,10);
+
+  const nuevoAlumno = await Alumno.create({
+    nombre : datos.nombre,
+    email : datos.email,
+    telefono : datos.telefono,
+    password : hashedPassword
+  });
+
+  const alumnoObj =nuevoAlumno.toObject();
+
+  delete alumnoObj.password;
+
+  const token = firmarToken(nuevoAlumno._id, 'ALUMNO');
+
+  return {token , alumno : alumnoObj};
 }
 
 // TODO: login.
@@ -32,5 +61,23 @@ export const registrarAlumno = async (datos) => {
 //   - si coincide, devuelve { token, rol } con el rol correcto
 //   - si no, devuelve null (para que el controller responda 401)
 export const login = async (email, password) => {
-  // ...
+  let usuario = await Profesor.findOne({email})
+
+  let rol = 'PROFESOR';
+
+  if(!usuario){
+    usuario = await Alumno.findOne({email})
+    rol = 'ALUMNO';
+  }
+
+  if(!usuario) return null
+  
+  const passwordValida = await bcrypt.compare(password, usuario.password)
+
+  if(!passwordValida) return null 
+
+  const token = firmarToken(usuario._id, rol)
+
+  return {token, rol}
+
 }

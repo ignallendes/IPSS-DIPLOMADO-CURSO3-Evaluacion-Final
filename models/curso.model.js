@@ -44,6 +44,7 @@ const cursoSchema = new mongoose.Schema(
     alumnos: [
       {
         type: mongoose.Schema.Types.ObjectId,
+        ref : 'Alumno',
       },
     ],
   },
