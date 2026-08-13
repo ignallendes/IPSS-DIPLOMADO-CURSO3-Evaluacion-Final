@@ -1,3 +1,4 @@
+import { Profesor } from '../models/profesor.model.js'
 import * as service from '../services/auth.service.js'
 
 // ---------------------------------------------------------------------------
@@ -12,6 +13,8 @@ export const registrarProfesor = async (req, res) => {
     // TODO: llama al service para crear el profesor (con la password hasheada)
     //       y devuelve su token. Status 201.
     //       Recuerda: NO devuelvas la password en la respuesta.
+    const nuevoProfesor = await service.registrarProfesor(req.body)
+    res.status(201).json(nuevoProfesor)
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
@@ -21,6 +24,8 @@ export const registrarProfesor = async (req, res) => {
 export const registrarAlumno = async (req, res) => {
   try {
     // TODO: igual que el profesor, pero para el alumno.
+    const nuevoAlumno = await service.registrarAlumno(req.body)
+    res.status(201).json(nuevoAlumno)
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
@@ -35,6 +40,13 @@ export const login = async (req, res) => {
     //   3. Compara la password con bcrypt.
     //   4. Si no coincide → 401.
     //   5. Si coincide → firma un token que incluya el id y el ROL, y devuélvelo.
+    const email = req.body.email;
+    const password = req.body.password;
+    
+    const loger = await service.login(email, password)
+    if(loger) return res.status(200).json(loger)
+    res.status(401).json({error : 'Credenciales inválidas'})
+    
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
