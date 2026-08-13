@@ -21,15 +21,15 @@ const cursoSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
-      require: true,
+      required: true,
     },
     fechaInicio: {
       type: Date,
-      require: true,
+      required: true,
     },
     fechaTermino: {
       type: Date,
-      require: true,
+      required: true,
     },
     estado: {
       type: String,
