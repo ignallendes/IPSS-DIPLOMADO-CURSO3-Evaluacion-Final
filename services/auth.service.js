@@ -37,7 +37,7 @@ export const registrarProfesor = async (datos) => {
 
 // TODO: registra un alumno (igual que el profesor).
 export const registrarAlumno = async (datos) => {
-  const hashedPassword = bcrypt.hash(datos.password,10);
+  const hashedPassword = await bcrypt.hash(datos.password,10);
 
   const nuevoAlumno = await Alumno.create({
     nombre : datos.nombre,

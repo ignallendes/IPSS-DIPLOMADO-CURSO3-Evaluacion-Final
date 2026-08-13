@@ -42,11 +42,15 @@ export const login = async (req, res) => {
     //   5. Si coincide → firma un token que incluya el id y el ROL, y devuélvelo.
     const email = req.body.email;
     const password = req.body.password;
-    
+
     const loger = await service.login(email, password)
-    if(loger) return res.status(200).json(loger)
-    res.status(401).json({error : 'Credenciales inválidas'})
-    
+    if (loger) {
+      res.status(200).json(loger)
+    } else {
+      res.status(401).json({ error: 'Credenciales inválidas' })
+    }
+
+
   } catch (error) {
     res.status(400).json({ error: error.message })
   }
