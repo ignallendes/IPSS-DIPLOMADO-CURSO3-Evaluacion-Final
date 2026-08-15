@@ -39,11 +39,25 @@ export const editarCurso = async (id, datos) => {
     }
     await Curso.updateOne({ _id: id }, datos)
     const cursoEditado = await Curso.findById(id).populate('profesores').populate('alumnos')
-    return { curso : cursoEditado }
+    return { curso: cursoEditado }
 }
 //   - borrarCurso(id)
+export const borrarCurso = async (id) => {
+    const curso = await Curso.findById(id)
+    if (!curso) { return { error: 'El curso no existe' } }
+    await Curso.deleteOne({ _id: id })
+    return { curso }
+}
 //   - cursosDelProfesor(profesorId)
+export const cursosDelProfesor = async (profesorId) =>{
+    const cursos = await Curso.find({profesor : profesorId})
+    return {cursos}
+}
 //   - cursosDelAlumno(alumnoId)
+export const cursosDelAlumno = async (alumnoId) => {
+    const cursos = await Curso.find({alumnos : alumnoId})
+    return {cursos}
+}
 //
 // Piensa qué necesita cada ruta y crea solo lo que uses.
 
