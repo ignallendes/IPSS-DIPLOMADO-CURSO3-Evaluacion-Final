@@ -50,12 +50,12 @@ export const borrarCurso = async (id) => {
 }
 //   - cursosDelProfesor(profesorId)
 export const cursosDelProfesor = async (profesorId) =>{
-    const cursos = await Curso.find({profesor : profesorId})
+    const cursos = await Curso.find({profesor : profesorId}).populate('profesores')
     return {cursos}
 }
 //   - cursosDelAlumno(alumnoId)
 export const cursosDelAlumno = async (alumnoId) => {
-    const cursos = await Curso.find({alumnos : alumnoId})
+    const cursos = await Curso.find({alumnos : alumnoId}).populate('alumnos')
     return {cursos}
 }
 //
