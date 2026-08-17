@@ -13,7 +13,7 @@ import { Curso } from '../models/curso.model.js'
 
 export const listarCursos = async () => {
 
-    const cursos = await Curso.find().populate('profesores').populate('alumnos')
+    const cursos = await Curso.find().populate('profesor').populate('alumnos')
 
     return { cursos }
 }
@@ -27,7 +27,7 @@ export const crearCurso = async (datos) => {
 //   - buscarCurso(id)
 export const buscarCurso = async (id) => {
 
-    const curso = await Curso.findById(id).populate('profesores').populate('alumnos')
+    const curso = await Curso.findById(id).populate('profesor').populate('alumnos')
 
     return { curso }
 }
@@ -38,7 +38,7 @@ export const editarCurso = async (id, datos) => {
         return { error: 'El curso no existe' }
     }
     await Curso.updateOne({ _id: id }, datos)
-    const cursoEditado = await Curso.findById(id).populate('profesores').populate('alumnos')
+    const cursoEditado = await Curso.findById(id).populate('profesor').populate('alumnos')
     return { curso: cursoEditado }
 }
 //   - borrarCurso(id)
@@ -50,7 +50,7 @@ export const borrarCurso = async (id) => {
 }
 //   - cursosDelProfesor(profesorId)
 export const cursosDelProfesor = async (profesorId) =>{
-    const cursos = await Curso.find({profesor : profesorId}).populate('profesores')
+    const cursos = await Curso.find({profesor : profesorId}).populate('profesor')
     return {cursos}
 }
 //   - cursosDelAlumno(alumnoId)

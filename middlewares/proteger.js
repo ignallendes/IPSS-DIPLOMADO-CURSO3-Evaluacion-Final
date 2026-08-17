@@ -39,8 +39,8 @@ export const proteger = (req, res, next) => {
 //   Si no coincide, responde 403.
 export const soloRol = (rol) => (req, res, next) => {
   // ...
-  if (req.usuario.rol !== rol) {
-    return res.status(403).json({ error: 'Error' })
+  if (req.usuario.rol.toLowerCase() !== rol.toLowerCase()) {
+    return res.status(403).json({ error: 'El rol no es válido' })
   }
   next()
 
