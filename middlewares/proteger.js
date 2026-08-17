@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../config/jwt.js'
+import { json } from 'express'
 
 // ---------------------------------------------------------------------------
 // MIDDLEWARE — el guardia de las rutas protegidas.
@@ -16,6 +17,17 @@ import { JWT_SECRET } from '../config/jwt.js'
 //   6. Si todo bien, next().
 export const proteger = (req, res, next) => {
   // ...
+  const header = req.headers.authorization
+  if (!header || !header.startsWith('Bearer ')) { return res.status(401).json({ error: 'No tienes un token de sesion válido' }) }
+  const token = header.split(' ')[1]
+  try {
+    const payload = jwt.verify(token, JWT_SECRET)
+    req.usuario = payload
+    next()
+  }
+  catch (error) {
+    return res.status(401).json({ error: 'Token inválido o expirado' })
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -27,4 +39,9 @@ export const proteger = (req, res, next) => {
 //   Si no coincide, responde 403.
 export const soloRol = (rol) => (req, res, next) => {
   // ...
+  if (req.usuario.rol !== rol) {
+    return res.status(403).json({ error: 'Error' })
+  }
+  next()
+
 }
